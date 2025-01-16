@@ -22,7 +22,6 @@ api_version = "v3"
 sentiment_analysis = pipeline("sentiment-analysis")
 
 # Fetching the youtube comments using next_page_token
-
 youtube = googleapiclient.discovery.build(
     api_service_name, api_version, developerKey=os.environ.get("DEVELOPER_KEY")
 )
