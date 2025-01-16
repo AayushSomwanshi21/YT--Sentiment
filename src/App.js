@@ -21,9 +21,23 @@ function App() {
   }, [])
 
   return (
-    <div>
+    <>
+      <section className='heading'>
+        Yotube Sentiment Anaylizer
+      </section>
+      <section className='form-container'>
+        <form className="analyze-form">
+          <input id="youtube-link" type="text" placeholder="Enter YouTube video link" />
+          <div className='btn-container'>
+            <button type="submit">Analyze</button>
+          </div>
+
+        </form>
+      </section>
+
+
       {data.average_sentiment_score}
-    </div>
+    </>
   );
 }
 

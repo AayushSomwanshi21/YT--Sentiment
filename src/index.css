@@ -5,9 +5,67 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(10, 10, 10);
+  ;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.heading {
+
+  text-align: center;
+  margin-top: 4rem;
+  margin-bottom: 5rem;
+  font-size: 4rem;
+  color: white;
+}
+
+.form-container {
+  display: flex;
+  align-self: center;
+  justify-content: center;
+
+}
+
+.analyze-form {
+  display: flex;
+  width: 40rem;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.analyze-form label {
+  font-size: 1em;
+  text-align: left;
+}
+
+.analyze-form input {
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.analyze-form button {
+  padding: 10px;
+  font-size: 1em;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 15rem;
+}
+
+.analyze-form button:hover {
+  background-color: #0056b3;
 }
