@@ -1,7 +1,7 @@
 import googleapiclient.discovery
 from transformers import pipeline
 import os
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -58,10 +58,15 @@ def fetch_all_comments(video_id, max_comments=500):
     return comments_data[:max_comments]
 
 
-@app.get("/")
-async def read_root():
+def truncate_comments(comment, max_len=512):
 
-    video_id = "M0qiZHV4E3U"
+    return comment[:max_len]
+
+
+@app.get("/")
+async def read_root(id: str = Query(...)):
+
+    video_id = id
     all_comments = fetch_all_comments(video_id, max_comments=500)
 
     sorted_comments = sorted(
@@ -69,7 +74,7 @@ async def read_root():
     top_comments = sorted_comments[:100]
 
     batch_size = 20
-    comments = [data['comment'] for data in top_comments]
+    comments = [truncate_comments(data['comment']) for data in top_comments]
     batches = [comments[i: i + batch_size]
                for i in range(0, len(comments), batch_size)]
 
