@@ -63,6 +63,18 @@ def truncate_comments(comment, max_len=512):
     return comment[:max_len]
 
 
+def video_info(video_id):
+
+    req = youtube.videos().list(
+        part="snippet",
+        id=video_id
+    )
+    res = req.execute()
+    return res
+    # if 'items' in res and len(res['items']) > 0:
+    #    return res['items'][0]['snippet']['title']
+
+
 @app.get("/")
 async def read_root(id: str = Query(...)):
 
@@ -96,9 +108,11 @@ async def read_root(id: str = Query(...)):
     average_score = total_score / len(top_comments) if top_comments else 0
     overall_sentiment = "POSITIVE" if positive_count > negative_count else "NEGATIVE"
 
+    video_data = video_info(video_id)
     return {
         "positive_comments": positive_count,
         "negative_comments": negative_count,
         "average_sentiment_score": round(average_score, 4),
         "overall_sentiment": overall_sentiment,
+        "video data": video_data
     }
