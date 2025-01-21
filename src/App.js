@@ -34,7 +34,7 @@ function App() {
   return (
     <>
       <section className='heading'>
-        Yotube Sentiment Anaylizer
+        Youtube Sentiment Anaylizer
       </section>
       <section className='form-container'>
         <form className="analyze-form" onSubmit={handleSubmit}>
@@ -51,6 +51,10 @@ function App() {
         <div>Sentiment: {data.overall_sentiment}</div>
       </section>*/}
       <section className='output-container'>
+        <div className='video_display'>
+          <img src={data.thumbnail_img} alt='thumbnail' style={{ height: "90%", width: '90%' }} />
+          <div>{data.video_name}</div>
+        </div>
         {data.positive_comments && data.negative_comments && (
           <SentimentPieChart data={data} />
         )}

@@ -72,9 +72,21 @@ code {
 
 .output-container {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   margin-top: 2rem;
   margin-left: auto;
   margin-right: auto;
+}
+
+.video_display {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  font-size: large;
+  font-weight: 600;
+  font-family: 'Times New Roman', Times, serif;
+  color: white;
+  height: 450px;
+  width: 600px;
 }
