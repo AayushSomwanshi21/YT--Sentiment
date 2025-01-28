@@ -27,6 +27,18 @@ youtube = googleapiclient.discovery.build(
 )
 
 
+def comments_summary(comments, max_tokens=1000):
+
+    summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+    joined_comments = ' '.join(comments)
+    truncated_comments = joined_comments[:max_tokens]
+
+    summary = summarizer(truncated_comments, max_length=150,
+                         min_length=20, do_sample=False)
+
+    return summary[0]['summary_text']
+
+
 def fetch_all_comments(video_id, max_comments=500):
     comments_data = []
     next_page_token = None
@@ -115,13 +127,18 @@ async def read_root(id: str = Query(...)):
 
     average_score = total_score / len(top_comments) if top_comments else 0
     overall_sentiment = "POSITIVE" if positive_count > negative_count else "NEGATIVE"
-
     video_data, thumbnail_data = video_info(video_id)
+
+    # Summary the comments
+
+    summary = comments_summary(comments)
+
     return {
         "positive_comments": positive_count,
         "negative_comments": negative_count,
         "average_sentiment_score": round(average_score, 4),
         "overall_sentiment": overall_sentiment,
         "video_name": video_data,
-        "thumbnail_img": thumbnail_data
+        "thumbnail_img": thumbnail_data,
+        "summary_text": summary
     }
