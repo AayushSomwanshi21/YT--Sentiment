@@ -3,6 +3,7 @@ from transformers import pipeline
 import os
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
+import html
 
 app = FastAPI()
 
@@ -21,7 +22,7 @@ api_version = "v3"
 
 sentiment_analysis = pipeline("sentiment-analysis")
 
-# Fetching the youtube comments using next_page_token
+# fetching the youtube comments using next_page_token
 youtube = googleapiclient.discovery.build(
     api_service_name, api_version, developerKey=os.environ.get("DEVELOPER_KEY")
 )
@@ -83,12 +84,12 @@ def video_info(video_id):
     )
     res = req.execute()
 
-    # Extract thumbnail link
+    # extract thumbnail link
     thumbnails = res['items'][0]['snippet']['thumbnails']
     thumbnail_url = thumbnails.get('high', thumbnails.get(
         'medium', thumbnails.get('default'))).get('url')
 
-    # Extract title
+    # extract title
     if 'items' in res and len(res['items']) > 0:
         title = res['items'][0]['snippet']['title']
 
@@ -129,9 +130,15 @@ async def read_root(id: str = Query(...)):
     overall_sentiment = "POSITIVE" if positive_count > negative_count else "NEGATIVE"
     video_data, thumbnail_data = video_info(video_id)
 
-    # Summary the comments
+    # summarize the comments
 
     summary = comments_summary(comments)
+    summary_list = summary.split('.')
+    final_summary = []
+
+    for each_summary in summary_list:
+        if each_summary.strip() != '':
+            final_summary.append(html.unescape(each_summary.strip()))
 
     return {
         "positive_comments": positive_count,
@@ -140,5 +147,5 @@ async def read_root(id: str = Query(...)):
         "overall_sentiment": overall_sentiment,
         "video_name": video_data,
         "thumbnail_img": thumbnail_data,
-        "summary_text": summary
+        "summary_text": final_summary
     }
