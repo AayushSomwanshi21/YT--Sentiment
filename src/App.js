@@ -6,6 +6,7 @@ function App() {
 
   const [data, setData] = useState({});
   const [link, setLink] = useState("");
+  const [summary, setSummary] = useState([]);
 
   const handleChange = (e) => {
     setLink(e.target.value)
@@ -25,8 +26,9 @@ function App() {
 
     e.preventDefault();
     const response = await axios.get(`http://127.0.0.1:8000/?id=${id}`);
-    console.log(response.data);
+    //console.log(response.data);
     setData(response.data)
+    setSummary(response.data.summary_text);
   }
 
 
@@ -58,6 +60,11 @@ function App() {
         {data.positive_comments && data.negative_comments && (
           <SentimentPieChart data={data} />
         )}
+      </section>
+      <section>
+        {summary.map((smry, index) => (
+          <div key={index} style={{ color: 'white' }}>{smry}</div>
+        ))}
       </section>
 
 

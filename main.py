@@ -4,6 +4,7 @@ import os
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 import html
+import random
 
 app = FastAPI()
 
@@ -28,16 +29,35 @@ youtube = googleapiclient.discovery.build(
 )
 
 
-def comments_summary(comments, max_tokens=1000):
+def comments_summary(comments, max_tokens=1000, batch_size=5):
 
     summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
-    joined_comments = ' '.join(comments)
-    truncated_comments = joined_comments[:max_tokens]
+    random.shuffle(comments)
 
-    summary = summarizer(truncated_comments, max_length=150,
-                         min_length=20, do_sample=False)
+    # divide the comments into smaller chunks for batch processsing
+    comments_chunks = [" ".join(comments[i: i + batch_size])
+                       for i in range(0, len(comments), batch_size)]
 
-    return summary[0]['summary_text']
+    # find the partial summary of the chunks
+    partial_summary = []
+
+    for chunk in comments_chunks:
+
+        chunk_tokens = len(chunk.split())
+
+        max_len = min(chunk_tokens//2, 50)
+        min_len = max(20, max_len // 2)
+
+        summary = summarizer(
+            chunk[:max_tokens], max_length=max_len, min_length=min_len, do_sample=False)
+        partial_summary.append(summary[0]['summary_text'])
+
+    # finalize the summary by generating the summary of the partial summary
+    partial_joined = ' '.join(partial_summary)
+    final_summary = summarizer(partial_joined[:max_tokens], max_length=50,
+                               min_length=25, do_sample=False)
+
+    return final_summary[0]['summary_text']
 
 
 def fetch_all_comments(video_id, max_comments=500):
@@ -133,12 +153,15 @@ async def read_root(id: str = Query(...)):
     # summarize the comments
 
     summary = comments_summary(comments)
+    new_summary = html.unescape(summary)
+    '''
     summary_list = summary.split('.')
     final_summary = []
 
     for each_summary in summary_list:
         if each_summary.strip() != '':
             final_summary.append(html.unescape(each_summary.strip()))
+    '''
 
     return {
         "positive_comments": positive_count,
@@ -147,5 +170,5 @@ async def read_root(id: str = Query(...)):
         "overall_sentiment": overall_sentiment,
         "video_name": video_data,
         "thumbnail_img": thumbnail_data,
-        "summary_text": final_summary
+        "summary_text": new_summary
     }
