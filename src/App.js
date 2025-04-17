@@ -61,11 +61,14 @@ function App() {
           <SentimentPieChart data={data} />
         )}
       </section>
+      {/* 
       <section>
         {summary.map((smry, index) => (
           <div key={index} style={{ color: 'white' }}>{smry}</div>
         ))}
       </section>
+
+      */}
 
 
     </>
