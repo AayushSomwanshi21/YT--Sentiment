@@ -1,70 +1,97 @@
-# Getting Started with Create React App
+# YouTube Comment Summarizer 🎥🧠
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+An AI-powered web application that fetches comments from any YouTube video and generates a sentiment-aware summary using NLP models. Ideal for users looking to quickly understand public opinion without sifting through hundreds of comments.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🚀 Features
 
-### `npm start`
+- 🔍 Fetch comments from any YouTube video using YouTube Data API
+- 🧠 Summarize comments using HuggingFace's `facebook/bart-large-cnn` model
+- 😊 Analyze overall sentiment (positive, neutral, negative)
+- ⚡ Fast and responsive UI with React.js and shadcn/ui
+- 🧩 Backend built with FastAPI for efficient API handling
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🛠️ Tech Stack
 
-### `npm test`
+### Frontend
+- **React.js** – Modern JavaScript library for building user interfaces
+- **shadcn/ui** – Clean, accessible components for a better UI/UX
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Backend
+- **FastAPI** – High-performance Python framework for API development
+- **HuggingFace Transformers** – NLP model for summarization
+- **YouTube Data API** – To fetch video comments programmatically
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 📦 Installation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Prerequisites
+- Node.js
+- Python 3.8+
+- YouTube API Key
+- HuggingFace Token
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 1. Clone the Repository
 
-### `npm run eject`
+```bash
+git clone https://github.com/your-username/youtube-comment-summarizer.git
+cd youtube-comment-summarizer
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 2. Setup Backend (FastAPI)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+pip install -r requirements.txt
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Create a .env file with:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```ini
+YOUTUBE_API_KEY=your_youtube_api_key
+```
 
-## Learn More
+Run the FastAPI server:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+uvicorn main:app --reload
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 3. Setup Frontend (React.js)
 
-### Code Splitting
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 🧪 Example Use Case
 
-### Analyzing the Bundle Size
+- Enter a valid YouTube video URL.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- The app fetches the top 100 comments based on like counts and replies.
+ 
+- The sentiment of comments is displayed (positive and negative comments percentage).
 
-### Making a Progressive Web App
+## 📸 Screenshot
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+**Home Page where the user pastes the YouTube video url and the a Pie Chart of sentiment analysis is displayed with the percentage of positive and negative sentiments**
 
-### Advanced Configuration
+![Main Page](/frontend/public/screeenshots/Screenshot%202025-05-03%20144550.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+## 💬 Acknowledgements
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- HuggingFace Transformers
 
-### `npm run build` fails to minify
+- FastAPI
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- YouTube Data API
+
+- shadcn/ui
