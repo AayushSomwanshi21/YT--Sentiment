@@ -83,7 +83,7 @@ npm run dev
 
 **Home Page where the user pastes the YouTube video url and the a Pie Chart of sentiment analysis is displayed with the percentage of positive and negative sentiments**
 
-![Main Page](/frontend/public/screeenshots/Screenshot%202025-05-03%20144550.png)
+![Main Page](public/screeenshots/Screenshot%202025-05-03%20144550.png)
 
 
 ## 💬 Acknowledgements
